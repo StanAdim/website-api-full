@@ -1,0 +1,26 @@
+services:
+
+  backend:
+    container_name: backend
+    build: .
+    volumes:
+      - ./backend:/var/www/html
+    ports:
+      - 3030:80
+  
+  mysql_db:
+    container_name: mysql_db
+    image: mysql:8.0.33
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: website_app
+    ports:
+    - 3333:3306
+
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin:5.2.1
+    ports:
+      - 3031:80
+    environment:
+      - PMA_ARBITRARY=1
