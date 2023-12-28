@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserCollection;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -9,7 +10,22 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-   public function registerUser(Request $request) {
+    public function index(){
+        $usersList = UserCollection::collection(User::all());
+        if ($usersList !== []){
+            return response()->json([
+                'message'=> "Registered users",
+                'data' => $usersList 
+            ]);
+        }
+        else {
+            return response()->json([
+                'message'=> "No users!"
+            ]);
+        }
+
+    }
+    public function registerUser(Request $request) {
         $validator = Validator::make($request->all(), [
             'firstName' => 'required|min:2|max:255',
             'middleName' => 'max:255',
@@ -27,8 +43,9 @@ class AuthController extends Controller
         }
         #Creating New User 
         $newUser = User::create([
-            'name' => $request->firstName . ' ' . $request->middleName . ' ' . $request->lastName,
-            'username' => $request->lastName . '.' . $request->firstName,
+            'firstName' => $request->firstName,
+            'lastName' =>  $request->lastName,
+            'middleName' => $request->middleName,
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
@@ -38,7 +55,7 @@ class AuthController extends Controller
         ], 200);      
 
    }
-   public function loginUser(Request $request){
+    public function loginUser(Request $request){
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required',

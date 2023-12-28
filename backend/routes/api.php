@@ -3,14 +3,14 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
+//|--------------------------------------------------------------------------
+//| API Routes
+//|--------------------------------------------------------------------------
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
 
 Route::post('/auth/register-user',[AuthController::class,'registerUser']);
+Route::get('/auth/users',[AuthController::class,'index']);
 Route::post('/auth/login-user',[AuthController::class,'loginUser']);
