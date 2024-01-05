@@ -1,12 +1,22 @@
 services:
+  frontend:
+    container_name: frontend
+    build: ./frontend
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./frontend:/var/www/html
+    ports:
+      - "3030:80"
+    command: "npm start"
 
   backend:
     container_name: backend
-    build: .
+    build: ./backend
     volumes:
       - ./backend:/var/www/html
     ports:
-      - 3030:80
+      - 3031:80
   
   mysql_db:
     container_name: mysql_db
@@ -21,6 +31,6 @@ services:
     container_name: phpmyadmin
     image: phpmyadmin:5.2.1
     ports:
-      - 3031:80
+      - 3032:80
     environment:
       - PMA_ARBITRARY=1
